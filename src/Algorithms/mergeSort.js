@@ -72,3 +72,7 @@ const mergeSort = (numbers) => {
 };
 
 export default mergeSort;
+
+export const name = 'Merge Sort';
+
+export const description = 'Simple merge sort';

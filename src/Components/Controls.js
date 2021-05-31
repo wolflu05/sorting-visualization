@@ -7,6 +7,8 @@ import {
   Button,
   Slider,
   Typography,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -151,13 +153,6 @@ const Controls = ({
   // cleanup interval on unmount
   useEffect(() => () => clearInterval(intervalId.current), []);
 
-  // recalculate trace if algorithm or array changes
-  useEffect(() => {
-    if (numbers) {
-      setTrace(algorithms[algorithm]([...numbers]));
-    }
-  }, [numbers, algorithm, setTrace]);
-
   return (
     <Paper className={classes.controls}>
       <LinearProgress
@@ -241,6 +236,23 @@ const Controls = ({
       >
         Generate random array
       </Button>
+      <br />
+      <br />
+      <Typography gutterBottom>Algorithm</Typography>
+      <Select
+        value={algorithm}
+        onChange={(event) => {
+          setAlgorithm(event.target.value);
+          setStep(0);
+        }}
+        disabled={isSorting}
+      >
+        {Object.entries(algorithms).map(([value, { name }], key) => (
+          <MenuItem value={value} key={key}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
     </Paper>
   );
 };

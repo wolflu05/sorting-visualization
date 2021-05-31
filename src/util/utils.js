@@ -58,3 +58,13 @@ export const scaleValue = (value, from, to) => {
   var capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
   return ~~(capped * scale + to[0]);
 };
+
+/**
+ * Swap two elements in an array
+ * @param {Array} array
+ * @param {Number} a index of a
+ * @param {Number} b index of b
+ * @returns {Array} swapped elements
+ */
+export const swap = (array, a, b) =>
+  ([array[a], array[b]] = [array[b], array[a]]);
