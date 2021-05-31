@@ -6,6 +6,10 @@ const useStyles = makeStyles((theme) => ({
   bar: {
     height: ({ value, max }) => `${(value / max) * 100}%`,
     backgroundColor: ({ state }) => {
+      if (!state) {
+        return stateColors.default;
+      }
+
       if (state.a) {
         return stateColors.a;
       } else if (state.b) {
@@ -36,7 +40,7 @@ const Bar = ({ value, state, max }) => {
 
   return (
     <div className={classes.bar}>
-      <div className={classes.text}>{value}</div>
+      {/* <div className={classes.text}>{value}</div> */}
     </div>
   );
 };
