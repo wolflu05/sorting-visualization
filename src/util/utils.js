@@ -68,3 +68,16 @@ export const scaleValue = (value, from, to) => {
  */
 export const swap = (array, a, b) =>
   ([array[a], array[b]] = [array[b], array[a]]);
+
+/**
+ * Insert an item after an specific index
+ * @param {Array} array array to insert an item
+ * @param {Number} index index after which the item should be inserted
+ * @param {Any} item item to insert
+ * @returns
+ */
+export const insertAt = (array, index, item) => [
+  ...array.slice(0, index),
+  item,
+  ...array.slice(index),
+];
