@@ -31,34 +31,49 @@ const mergeSort = (numbers) => {
     let i = 0;
 
     while (leftStart < left.length && rightStart < right.length) {
+      let sorted = [];
+      if (start === 0 && end === numbers.length) {
+        sorted = range(0, i);
+      }
+
       if (left[leftStart] <= right[rightStart]) {
-        trace.add(numbers, { b: [start + i] });
+        trace.add(numbers, { b: [start + i], sorted });
         numbers[start + i] = left[leftStart];
         leftStart++;
-        trace.add(numbers, { b: [start + i] });
+        trace.add(numbers, { b: [start + i], sorted });
       } else {
-        trace.add(numbers, { b: [start + i] });
+        trace.add(numbers, { b: [start + i], sorted });
         numbers[start + i] = right[rightStart];
         rightStart++;
-        trace.add(numbers, { b: [start + i] });
+        trace.add(numbers, { b: [start + i], sorted });
       }
       i++;
     }
 
     while (leftStart < left.length) {
-      trace.add(numbers, { b: [start + i] });
+      let sorted = [];
+      if (start === 0 && end === numbers.length) {
+        sorted = range(0, i);
+      }
+
+      trace.add(numbers, { b: [start + i], sorted });
       numbers[start + i] = left[leftStart];
       leftStart++;
       i++;
-      trace.add(numbers, { b: [start + i] });
+      trace.add(numbers, { b: [start + i], sorted });
     }
 
     while (rightStart < right.length) {
-      trace.add(numbers, { b: [start + i] });
+      let sorted = [];
+      if (start === 0 && end === numbers.length) {
+        sorted = range(0, i);
+      }
+
+      trace.add(numbers, { b: [start + i], sorted });
       numbers[start + i] = right[rightStart];
       rightStart++;
       i++;
-      trace.add(numbers, { b: [start + i] });
+      trace.add(numbers, { b: [start + i], sorted });
     }
 
     return numbers;
