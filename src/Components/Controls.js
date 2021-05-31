@@ -14,7 +14,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import FastForwardIcon from '@material-ui/icons/FastForward';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
+import FastRewindIcon from '@material-ui/icons/FastRewind';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 
@@ -76,11 +78,17 @@ const Controls = ({
         return;
       }
 
-      const _step = step + number;
+      let _step = step + number;
 
-      if (0 <= _step && _step < trace.length) {
-        setStep(_step);
+      if (_step < 0) {
+        _step = 0;
       }
+
+      if (_step > trace.length - 1) {
+        _step = trace.length - 1;
+      }
+
+      setStep(_step);
     },
     [step, setStep, trace]
   );
@@ -164,7 +172,13 @@ const Controls = ({
         {step}/{trace?.length - 1 || '-'}
       </span>
       <div className={classes.controlsWrapper}>
-        <IconButton onClick={() => skip(-1)} disabled={!trace || isSorting}>
+        <IconButton onClick={() => skip(-25)} disabled={!trace || step === 0}>
+          <FastRewindIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => skip(-1)}
+          disabled={!trace || isSorting || step === 0}
+        >
           <SkipPreviousIcon />
         </IconButton>
         <IconButton
@@ -179,8 +193,17 @@ const Controls = ({
             <PlayArrowIcon fontSize="large" />
           )}
         </IconButton>
-        <IconButton onClick={() => skip(+1)} disabled={!trace || isSorting}>
+        <IconButton
+          onClick={() => skip(+1)}
+          disabled={!trace || isSorting || step === trace.length - 1}
+        >
           <SkipNextIcon />
+        </IconButton>
+        <IconButton
+          onClick={() => skip(+25)}
+          disabled={!trace || step === trace.length - 1}
+        >
+          <FastForwardIcon />
         </IconButton>
       </div>
       <Typography gutterBottom>Size</Typography>
