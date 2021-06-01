@@ -38,6 +38,12 @@ const BarChart = ({ trace, numbers }) => {
               b: trace.state.b.includes(i),
               c: trace.state.c.includes(i),
               d: trace.state.d.includes(i),
+              marginLeft: trace.state.groups.some(
+                (group) => group[0] === i + 1
+              ),
+              marginRight: trace.state.groups.some(
+                (group) => group[1] === i - 1
+              ),
               sorted: trace?.state.sorted.includes(i),
             };
           }

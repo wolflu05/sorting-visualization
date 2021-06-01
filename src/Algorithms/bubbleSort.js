@@ -8,17 +8,20 @@ const bubbleSort = (numbers) => {
     for (let e = 0; e < sortedIndex - 1; e++) {
       trace.add(numbers, {
         a: [e, e + 1],
+        groups: [[e, e + 1]],
         sorted: range(sortedIndex, numbers.length),
       });
 
       if (numbers[e] > numbers[e + 1]) {
         trace.add(numbers, {
           b: [e, e + 1],
+          groups: [[e, e + 1]],
           sorted: range(sortedIndex, numbers.length),
         });
         swap(numbers, e, e + 1);
         trace.add(numbers, {
           b: [e, e + 1],
+          groups: [[e, e + 1]],
           sorted: range(sortedIndex, numbers.length),
         });
       }

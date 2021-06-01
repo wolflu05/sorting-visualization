@@ -12,10 +12,16 @@ const mergeSort = (numbers) => {
     } else {
       const middle = Math.floor((start + end) / 2);
 
-      trace.add(numbers, { a: range(start, middle) });
+      trace.add(numbers, {
+        a: range(start, middle),
+        groups: [[start, middle - 1]],
+      });
       _mergeSort(numbers, start, middle);
 
-      trace.add(numbers, { a: range(middle, end) });
+      trace.add(numbers, {
+        a: range(middle, end),
+        groups: [[middle, end - 1]],
+      });
       _mergeSort(numbers, middle, end);
 
       return merge(numbers, start, middle, end);
@@ -37,15 +43,31 @@ const mergeSort = (numbers) => {
       }
 
       if (left[leftStart] <= right[rightStart]) {
-        trace.add(numbers, { b: [start + i], sorted });
+        trace.add(numbers, {
+          b: [start + i],
+          sorted,
+          groups: [[start, end - 1]],
+        });
         numbers[start + i] = left[leftStart];
         leftStart++;
-        trace.add(numbers, { b: [start + i], sorted });
+        trace.add(numbers, {
+          b: [start + i],
+          sorted,
+          groups: [[start, end - 1]],
+        });
       } else {
-        trace.add(numbers, { b: [start + i], sorted });
+        trace.add(numbers, {
+          b: [start + i],
+          sorted,
+          groups: [[start, end - 1]],
+        });
         numbers[start + i] = right[rightStart];
         rightStart++;
-        trace.add(numbers, { b: [start + i], sorted });
+        trace.add(numbers, {
+          b: [start + i],
+          sorted,
+          groups: [[start, end - 1]],
+        });
       }
       i++;
     }
@@ -56,11 +78,19 @@ const mergeSort = (numbers) => {
         sorted = range(0, i);
       }
 
-      trace.add(numbers, { b: [start + i], sorted });
+      trace.add(numbers, {
+        b: [start + i],
+        sorted,
+        groups: [[start, end - 1]],
+      });
       numbers[start + i] = left[leftStart];
       leftStart++;
       i++;
-      trace.add(numbers, { b: [start + i], sorted });
+      trace.add(numbers, {
+        b: [start + i],
+        sorted,
+        groups: [[start, end - 1]],
+      });
     }
 
     while (rightStart < right.length) {
@@ -69,11 +99,19 @@ const mergeSort = (numbers) => {
         sorted = range(0, i);
       }
 
-      trace.add(numbers, { b: [start + i], sorted });
+      trace.add(numbers, {
+        b: [start + i],
+        sorted,
+        groups: [[start, end - 1]],
+      });
       numbers[start + i] = right[rightStart];
       rightStart++;
       i++;
-      trace.add(numbers, { b: [start + i], sorted });
+      trace.add(numbers, {
+        b: [start + i],
+        sorted,
+        groups: [[start, end - 1]],
+      });
     }
 
     return numbers;
@@ -89,5 +127,10 @@ const mergeSort = (numbers) => {
 export default mergeSort;
 
 export const name = 'Merge Sort';
+
+export const colors = {
+  a: 'call merge sort',
+  b: 'override from memory',
+};
 
 export const description = 'Simple merge sort';

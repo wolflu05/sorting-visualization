@@ -8,13 +8,14 @@ export default class Trace {
           b: [],
           c: [],
           d: [],
+          groups: [],
           sorted: [],
         },
       },
     ];
   }
 
-  add(numbers, { a = [], b = [], c = [], d = [], sorted = [] }) {
+  add(numbers, { a = [], b = [], c = [], d = [], groups = [], sorted = [] }) {
     this.trace.push({
       numbers: [...numbers],
       state: {
@@ -22,6 +23,7 @@ export default class Trace {
         b: [...b],
         c: [...c],
         d: [...d],
+        groups: [...groups],
         sorted: [...sorted],
       },
     });
