@@ -12,14 +12,18 @@ const insertionSort = (numbers) => {
 
     while (hole > 0 && numbers[hole - 1] > value) {
       numbers[hole] = numbers[hole - 1];
-      trace.add(numbers, { b: [hole - 1], c: range(0, i + 1) });
+
+      const copy = [...numbers];
+      copy[hole - 1] = value;
+      trace.add(copy, { a: [hole - 1], c: range(0, i + 1) });
+
       hole--;
     }
 
     numbers[hole] = value;
 
     trace.add(numbers, {
-      a: [hole],
+      b: [hole],
       c: range(0, i + 1),
     });
   }
@@ -32,5 +36,11 @@ const insertionSort = (numbers) => {
 export default insertionSort;
 
 export const name = 'Insertion Sort';
+
+export const colors = {
+  a: 'selected value',
+  b: 'write selected value',
+  c: 'sorted area',
+};
 
 export const description = 'Insertion sort.';
