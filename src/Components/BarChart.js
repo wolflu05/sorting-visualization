@@ -42,7 +42,14 @@ const BarChart = ({ trace, numbers }) => {
             };
           }
 
-          return <Bar value={number} max={max} state={state} key={i} />;
+          return (
+            <Bar
+              value={number}
+              max={max}
+              state={state}
+              key={`${i}_${number}`}
+            />
+          );
         })}
       </div>
     </Paper>

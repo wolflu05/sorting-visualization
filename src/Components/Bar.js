@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
     flex: 'auto',
     overflow: 'hidden',
     lineHeight: '16px',
+    marginRight: '1px',
+    marginLeft: '1px',
   },
   text: {
     display: 'inline-block',
