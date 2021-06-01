@@ -42,7 +42,7 @@ const Bar = ({ value, state, max }) => {
 
   return (
     <div className={classes.bar}>
-      {/* <div className={classes.text}>{value}</div> */}
+      <div className={classes.text}>{value}</div>
     </div>
   );
 };
