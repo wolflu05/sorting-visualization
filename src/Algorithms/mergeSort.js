@@ -133,4 +133,4 @@ export const colors = {
   b: 'override from memory',
 };
 
-export const description = 'Simple merge sort';
+export const description = 'Merge sort.';

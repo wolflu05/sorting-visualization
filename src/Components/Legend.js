@@ -33,7 +33,7 @@ const Legend = ({ algorithm }) => {
   const theme = useTheme();
 
   return (
-    <Card>
+    <Card bottomPadding={0.5} topPadding={0.5}>
       <div className={classes.colorPreviewWrapper}>
         {Object.entries({ sorted: 'Sorted', ...algorithm?.colors }).map(
           ([color, description], i) => (

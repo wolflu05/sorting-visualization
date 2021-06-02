@@ -210,7 +210,7 @@ const Controls = ({
   }, [skip, toggleSorting, trace]);
 
   return (
-    <Card bottomPadding={isOpen}>
+    <Card bottomPadding={isOpen ? 3 : 0}>
       <div>
         <LinearProgress
           variant="determinate"

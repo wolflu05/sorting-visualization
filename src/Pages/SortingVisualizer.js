@@ -8,6 +8,7 @@ import { generateRandomArray } from '../util/utils';
 import * as algorithms from '../Algorithms';
 import Legend from '../Components/Legend';
 import { defaultSettings } from '../util/constants';
+import Headline from '../Components/Headline';
 
 const App = () => {
   const [step, setStep] = useState(0);
@@ -26,6 +27,8 @@ const App = () => {
 
   return (
     <div>
+      <Headline />
+
       <BarChart trace={trace?.[step]} numbers={numbers} />
 
       <Legend algorithm={algorithms[algorithm]} />

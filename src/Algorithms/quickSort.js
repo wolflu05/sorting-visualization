@@ -103,4 +103,4 @@ export const colors = {
   d: 'pivot',
 };
 
-export const description = 'Quick sort';
+export const description = 'Quick sort.';

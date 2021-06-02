@@ -8,22 +8,20 @@ import Card from './Layout/Card';
 
 const useStyles = makeStyles((theme) => ({
   headline: {
-    borderBottom: `1px solid ${theme.palette.text.secondary}`,
     paddingBottom: theme.spacing(0.5),
   },
 }));
 
-const Description = ({ algorithm }) => {
+const Headline = () => {
   const classes = useStyles();
 
   return (
-    <Card>
-      <Typography variant="h5" className={classes.headline} gutterBottom>
-        {algorithm.name}
+    <Card bottomPadding={0}>
+      <Typography variant="h4" className={classes.headline} gutterBottom>
+        Sorting Visualizer
       </Typography>
-      <Typography>{algorithm.description}</Typography>
     </Card>
   );
 };
 
-export default Description;
+export default Headline;
