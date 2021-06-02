@@ -161,6 +161,41 @@ const Controls = ({
   // cleanup interval on unmount
   useEffect(() => () => clearInterval(intervalId.current), []);
 
+  // add keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      switch (event.keyCode) {
+        // left arrow
+        case 37: {
+          skip(-1);
+          break;
+        }
+        // right arrow
+        case 39: {
+          skip(+1);
+          break;
+        }
+        // space bar
+        case 32: {
+          if (trace) {
+            toggleSorting();
+          }
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // remove event handler on unmount
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [skip, toggleSorting, trace]);
+
   return (
     <Paper className={classes.controls}>
       <LinearProgress
