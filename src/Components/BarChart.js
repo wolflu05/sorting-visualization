@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
-
-import { Paper } from '@material-ui/core';
+import React, { useMemo, useRef } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import Bar from './Bar';
+import Card from './Layout/Card';
+
+import useResize from '../hooks/useResize';
 
 const useStyles = makeStyles((theme) => ({
   barChart: {
@@ -23,12 +24,19 @@ const useStyles = makeStyles((theme) => ({
 
 const BarChart = ({ trace, numbers }) => {
   const classes = useStyles();
+  const barChartRef = useRef(null);
+
+  const { width } = useResize(barChartRef);
+  const showNumbers = useMemo(
+    () => width / (trace?.numbers || numbers).length > 20,
+    [numbers, trace?.numbers, width]
+  );
 
   const max = useMemo(() => Math.max(...numbers), [numbers]);
 
   return (
-    <Paper className={classes.barChart}>
-      <div className={classes.barWrapper}>
+    <Card>
+      <div className={classes.barWrapper} ref={barChartRef}>
         {(trace?.numbers || numbers).map((number, i) => {
           let state = null;
 
@@ -54,11 +62,12 @@ const BarChart = ({ trace, numbers }) => {
               max={max}
               state={state}
               key={`${i}_${number}`}
+              showNumber={showNumbers}
             />
           );
         })}
       </div>
-    </Paper>
+    </Card>
   );
 };
 

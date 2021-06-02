@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-
 import BarChart from '../Components/BarChart';
 import Controls from '../Components/Controls';
 import Description from '../Components/Description';
 
 import { generateRandomArray } from '../util/utils';
 import * as algorithms from '../Algorithms';
-
-const useStyles = makeStyles((theme) => ({
-  wrapper: {
-    marginTop: theme.spacing(3),
-  },
-}));
+import Legend from '../Components/Legend';
+import { defaultSettings } from '../util/constants';
 
 const App = () => {
-  const classes = useStyles();
-
   const [step, setStep] = useState(0);
-  const [numbers, setNumbers] = useState(generateRandomArray(30, 0, 100));
-  const [algorithm, setAlgorithm] = useState('mergeSort');
+  const [numbers, setNumbers] = useState(
+    generateRandomArray(defaultSettings.size, ...defaultSettings.range)
+  );
+  const [algorithm, setAlgorithm] = useState(defaultSettings.algorithm);
   const [trace, setTrace] = useState(null);
 
   // recalculate trace if algorithm or array changes
@@ -31,8 +25,10 @@ const App = () => {
   }, [numbers, algorithm, setTrace]);
 
   return (
-    <div className={classes.wrapper}>
+    <div>
       <BarChart trace={trace?.[step]} numbers={numbers} />
+
+      <Legend algorithm={algorithms[algorithm]} />
 
       <Controls
         step={step}

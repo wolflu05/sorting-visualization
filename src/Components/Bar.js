@@ -1,5 +1,5 @@
 import React from 'react';
-import { stateColors } from '../util/constants';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -7,42 +7,65 @@ const useStyles = makeStyles((theme) => ({
     height: ({ value, max }) => `${(value / max) * 100}%`,
     backgroundColor: ({ state }) => {
       if (!state) {
-        return stateColors.default;
+        return theme.palette.bars.default;
       }
 
       if (state.a) {
-        return stateColors.a;
+        return theme.palette.bars.a;
       } else if (state.b) {
-        return stateColors.b;
+        return theme.palette.bars.b;
       } else if (state.c) {
-        return stateColors.c;
+        return theme.palette.bars.c;
       } else if (state.d) {
-        return stateColors.d;
+        return theme.palette.bars.d;
       } else if (state.sorted) {
-        return stateColors.sorted;
+        return theme.palette.bars.sorted;
       } else {
-        return stateColors.default;
+        return theme.palette.bars.default;
       }
     },
-    border: '1px solid #000',
+
     flex: 'auto',
     overflow: 'hidden',
     lineHeight: '16px',
     marginRight: ({ state }) => (state?.marginLeft ? '15px' : '0'),
     marginLeft: ({ state }) => (state?.marginRight ? '15px' : '0'),
+
+    transition: 'transform 125ms ease-in-out',
+    transformOrigin: 'bottom center',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+
+    border: '1px solid #000',
+    borderTopLeftRadius: '5px',
+    borderTopRightRadius: '5px',
+
+    [theme.breakpoints.down('xs')]: {
+      borderTopLeftRadius: '2px',
+      borderTopRightRadius: '2px',
+
+      '&:hover': {
+        transform: 'scale(1.03)',
+      },
+    },
   },
   text: {
+    userSelect: 'none',
     display: 'inline-block',
     whiteSpace: 'nowrap',
+    textAlign: 'center',
+    width: '100%',
+    marginTop: theme.spacing(),
   },
 }));
 
-const Bar = ({ value, state, max }) => {
+const Bar = ({ value, state, max, showNumber }) => {
   const classes = useStyles({ value, state, max });
 
   return (
     <div className={classes.bar}>
-      <div className={classes.text}>{value}</div>
+      {showNumber && <div className={classes.text}>{value}</div>}
     </div>
   );
 };

@@ -1,8 +1,7 @@
-export const stateColors = {
-  default: 'pink',
-  a: 'red',
-  b: 'green',
-  c: 'magenta',
-  d: 'blue',
-  sorted: 'yellow',
+export const defaultSettings = {
+  theme: 'dark',
+  size: 30,
+  range: [7, 100],
+  speed: 1,
+  algorithm: 'selectionSort',
 };

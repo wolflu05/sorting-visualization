@@ -10,7 +10,7 @@ import { light, dark } from '../../util/theme';
 const ThemeProvider = ({ theme, children }) => {
   return (
     <MuiThemeProvider
-      theme={theme ? createMuiTheme(dark) : createMuiTheme(light)}
+      theme={theme === 'dark' ? createMuiTheme(dark) : createMuiTheme(light)}
     >
       {children}
     </MuiThemeProvider>

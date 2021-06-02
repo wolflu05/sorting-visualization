@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
-  Paper,
   IconButton,
   LinearProgress,
   Button,
@@ -9,6 +8,9 @@ import {
   Typography,
   Select,
   MenuItem,
+  FormControl,
+  InputLabel,
+  Collapse,
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,26 +21,21 @@ import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import FastRewindIcon from '@material-ui/icons/FastRewind';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ReplayIcon from '@material-ui/icons/Replay';
+
+import Card from './Layout/Card';
 
 import { generateRandomArray, normalize, scaleValue } from '../util/utils';
+import { defaultSettings } from '../util/constants';
 import * as algorithms from '../Algorithms';
+import BootstrapInput from './Inputs/BootstrapInput';
 
 const useStyles = makeStyles((theme) => ({
-  controls: {
-    height: '100%',
-    padding: theme.spacing(3),
-    margin: theme.spacing(),
-  },
   controlsWrapper: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: theme.spacing(2),
-  },
-  slider: {
-    width: '400px',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
   },
   controlButton: {
     marginLeft: theme.spacing(2),
@@ -48,8 +45,25 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.secondary.main}`,
   },
   indicator: {
+    display: 'flex',
+    justifyContent: 'flex-end;',
     marginTop: theme.spacing(),
-    float: 'right',
+  },
+  buttonWrapper: {
+    marginBottom: theme.spacing(),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  collapseButton: {
+    marginTop: -theme.spacing(10),
+  },
+  collapseIcon: {
+    transition: 'all 125ms ease-in-out',
+    transform: ({ isOpen }) => `rotate(${isOpen ? '0' : '-90'}deg)`,
+  },
+  button: {
+    marginLeft: theme.spacing(),
   },
 }));
 
@@ -58,18 +72,17 @@ const Controls = ({
   setStep,
   algorithm,
   setAlgorithm,
-  numbers,
   setNumbers,
   trace,
-  setTrace,
 }) => {
-  const classes = useStyles();
-
   const intervalId = useRef(null);
   const [isSorting, setIsSorting] = useState(false);
-  const [speed, setSpeed] = useState(1);
-  const [size, setSize] = useState(100);
-  const [minMax, setMinMax] = useState([0, 100]);
+  const [speed, setSpeed] = useState(defaultSettings.speed);
+  const [size, setSize] = useState(defaultSettings.size);
+  const [minMax, setMinMax] = useState(defaultSettings.range);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const classes = useStyles({ isOpen });
 
   // skip forward or backward
   const skip = useCallback(
@@ -197,121 +210,141 @@ const Controls = ({
   }, [skip, toggleSorting, trace]);
 
   return (
-    <Paper className={classes.controls}>
-      <LinearProgress
-        variant="determinate"
-        value={normalize(step, 0, trace?.length - 1 || 0)}
-        color="secondary"
-      />
-      <span className={classes.indicator}>
-        {step}/{trace?.length - 1 || '-'}
-      </span>
-      <div className={classes.controlsWrapper}>
-        <IconButton onClick={() => skip(-25)} disabled={!trace || step === 0}>
-          <FastRewindIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => skip(-1)}
-          disabled={!trace || isSorting || step === 0}
-        >
-          <SkipPreviousIcon />
-        </IconButton>
-        <IconButton
-          onClick={toggleSorting}
-          disabled={!trace}
-          classes={{ root: classes.containedButton }}
-          className={classes.controlButton}
-        >
-          {isSorting ? (
-            <PauseIcon fontSize="large" />
-          ) : (
-            <PlayArrowIcon fontSize="large" />
-          )}
-        </IconButton>
-        <IconButton
-          onClick={() => skip(+1)}
-          disabled={!trace || isSorting || step === trace.length - 1}
-        >
-          <SkipNextIcon />
-        </IconButton>
-        <IconButton
-          onClick={() => skip(+25)}
-          disabled={!trace || step === trace.length - 1}
-        >
-          <FastForwardIcon />
-        </IconButton>
+    <Card bottomPadding={isOpen}>
+      <div>
+        <LinearProgress
+          variant="determinate"
+          value={normalize(step, 0, trace?.length - 1 || 0)}
+          color="secondary"
+        />
+        <span className={classes.indicator}>
+          {step}/{trace?.length - 1 || '-'}
+        </span>
+        <div className={classes.controlsWrapper}>
+          <IconButton onClick={() => skip(-25)} disabled={!trace || step === 0}>
+            <FastRewindIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => skip(-1)}
+            disabled={!trace || isSorting || step === 0}
+          >
+            <SkipPreviousIcon />
+          </IconButton>
+          <IconButton
+            onClick={toggleSorting}
+            disabled={!trace}
+            classes={{ root: classes.containedButton }}
+            className={classes.controlButton}
+          >
+            {isSorting ? (
+              <PauseIcon fontSize="large" />
+            ) : (
+              <PlayArrowIcon fontSize="large" />
+            )}
+          </IconButton>
+          <IconButton
+            onClick={() => skip(+1)}
+            disabled={!trace || isSorting || step === trace.length - 1}
+          >
+            <SkipNextIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => skip(+25)}
+            disabled={!trace || step === trace.length - 1}
+          >
+            <FastForwardIcon />
+          </IconButton>
+        </div>
       </div>
-      <Typography gutterBottom>Size</Typography>
-      <Slider
-        value={size}
-        onChange={(_e, value) => {
-          setSize(value);
-          generateArray();
-        }}
-        className={classes.slider}
-        valueLabelDisplay="auto"
-        min={2}
-        max={250}
-        disabled={isSorting}
-        color="secondary"
-      />
-      <Typography gutterBottom>Range</Typography>
-      <Slider
-        value={minMax}
-        onChange={(_e, value) => {
-          setMinMax(value);
-          generateArray();
-        }}
-        className={classes.slider}
-        valueLabelDisplay="auto"
-        min={0}
-        max={1000}
-        disabled={isSorting}
-        color="secondary"
-      />
-      <Typography gutterBottom>Speed</Typography>
-      <Slider
-        value={speed}
-        onChange={(_e, value) => {
-          setSpeed(value);
-          restartSorting();
-        }}
-        className={classes.slider}
-        valueLabelDisplay="auto"
-        min={0.25}
-        step={0.25}
-        max={4}
-        marks
-        color="secondary"
-      />
-      <br />
-      <br />
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={generateArray}
-        disabled={isSorting}
+
+      <IconButton
+        onClick={() => setIsOpen(!isOpen)}
+        className={classes.collapseButton}
       >
-        Generate random array
-      </Button>
-      <br />
-      <br />
-      <Typography gutterBottom>Algorithm</Typography>
-      <Select
-        value={algorithm}
-        onChange={(event) => {
-          setAlgorithm(event.target.value);
-          setStep(0);
-        }}
-        disabled={isSorting}
-      >
-        {Object.entries(algorithms).map(([value, { name }], key) => (
-          <MenuItem value={value} key={key}>
-            {name}
-          </MenuItem>
-        ))}
-      </Select>
-    </Paper>
+        <ExpandMoreIcon className={classes.collapseIcon} />
+      </IconButton>
+
+      <Collapse in={isOpen}>
+        <div>
+          <div className={classes.buttonWrapper}>
+            <FormControl>
+              <InputLabel color="secondary">Algorithm</InputLabel>
+              <Select
+                value={algorithm}
+                onChange={(event) => {
+                  setAlgorithm(event.target.value);
+                  setStep(0);
+                }}
+                inputProps={{
+                  id: 'algorithm-selector',
+                }}
+                disabled={isSorting}
+                input={<BootstrapInput />}
+              >
+                {Object.entries(algorithms).map(([value, { name }], key) => (
+                  <MenuItem value={value} key={key}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={generateArray}
+              disabled={isSorting}
+              className={classes.button}
+              startIcon={<ReplayIcon />}
+            >
+              Generate random array
+            </Button>
+          </div>
+
+          <Typography gutterBottom>Size</Typography>
+          <Slider
+            value={size}
+            onChange={(_e, value) => {
+              setSize(value);
+              generateArray();
+            }}
+            valueLabelDisplay="auto"
+            min={2}
+            max={100}
+            disabled={isSorting}
+            color="secondary"
+          />
+
+          <Typography gutterBottom>Range</Typography>
+          <Slider
+            value={minMax}
+            onChange={(_e, value) => {
+              setMinMax(value);
+              generateArray();
+            }}
+            valueLabelDisplay="auto"
+            min={0}
+            max={1000}
+            disabled={isSorting}
+            color="secondary"
+          />
+
+          <Typography gutterBottom>Speed</Typography>
+          <Slider
+            value={speed}
+            onChange={(_e, value) => {
+              setSpeed(value);
+              restartSorting();
+            }}
+            valueLabelDisplay="auto"
+            min={0.25}
+            step={0.25}
+            max={4}
+            marks
+            color="secondary"
+          />
+        </div>
+      </Collapse>
+    </Card>
   );
 };
 
