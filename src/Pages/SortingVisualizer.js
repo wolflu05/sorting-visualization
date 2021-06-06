@@ -44,7 +44,7 @@ const App = () => {
         setTrace={setTrace}
       />
 
-      <Description algorithm={algorithms[algorithm]} />
+      {/* <Description algorithm={algorithms[algorithm]} /> */}
     </div>
   );
 };
