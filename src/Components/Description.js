@@ -21,7 +21,7 @@ const Description = ({ algorithm }) => {
       <Typography variant="h5" className={classes.headline} gutterBottom>
         {algorithm.name}
       </Typography>
-      <Typography>{algorithm.description}</Typography>
+      {/* <Typography>{algorithm.description}</Typography> */}
     </Card>
   );
 };

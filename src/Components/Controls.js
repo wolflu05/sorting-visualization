@@ -3,14 +3,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IconButton,
   LinearProgress,
-  Button,
-  Slider,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Collapse,
+  Hidden,
+  SwipeableDrawer,
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,14 +17,13 @@ import FastRewindIcon from '@material-ui/icons/FastRewind';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ReplayIcon from '@material-ui/icons/Replay';
+import SettingsIcon from '@material-ui/icons/Settings';
 
+import ExtendedControls from './ExtendedControls';
 import Card from './Layout/Card';
 
 import { generateRandomArray, normalize, scaleValue } from '../util/utils';
 import { defaultSettings } from '../util/constants';
-import * as algorithms from '../Algorithms';
-import BootstrapInput from './Inputs/BootstrapInput';
 
 const useStyles = makeStyles((theme) => ({
   controlsWrapper: {
@@ -49,12 +43,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end;',
     marginTop: theme.spacing(),
   },
-  buttonWrapper: {
-    marginBottom: theme.spacing(),
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
   collapseButton: {
     marginTop: -theme.spacing(10),
   },
@@ -62,8 +50,24 @@ const useStyles = makeStyles((theme) => ({
     transition: 'all 125ms ease-in-out',
     transform: ({ isOpen }) => `rotate(${isOpen ? '0' : '-90'}deg)`,
   },
-  button: {
-    marginLeft: theme.spacing(),
+  drawerPaper: {
+    borderTopLeftRadius: '15px',
+    borderTopRightRadius: '15px',
+    padding: theme.spacing(3),
+  },
+  openExtendedSettingsButton: {
+    position: 'fixed',
+    width: '56px',
+    height: '56px',
+    backgroundColor: theme.palette.secondary.main,
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.dark,
+    },
+  },
+  openExtendedSettingsIcon: {
+    fontSize: 30,
   },
 }));
 
@@ -209,8 +213,25 @@ const Controls = ({
     };
   }, [skip, toggleSorting, trace]);
 
+  const extendedControls = (
+    <ExtendedControls
+      algorithm={algorithm}
+      setAlgorithm={setAlgorithm}
+      setStep={setStep}
+      size={size}
+      setSize={setSize}
+      minMax={minMax}
+      setMinMax={setMinMax}
+      speed={speed}
+      setSpeed={setSpeed}
+      isSorting={isSorting}
+      generateArray={generateArray}
+      restartSorting={restartSorting}
+    />
+  );
+
   return (
-    <Card bottomPadding={isOpen ? 3 : 0}>
+    <Card bottomPadding={3}>
       <div>
         <LinearProgress
           variant="determinate"
@@ -257,93 +278,35 @@ const Controls = ({
         </div>
       </div>
 
-      <IconButton
-        onClick={() => setIsOpen(!isOpen)}
-        className={classes.collapseButton}
-      >
-        <ExpandMoreIcon className={classes.collapseIcon} />
-      </IconButton>
+      <Hidden smDown>
+        <IconButton
+          onClick={() => setIsOpen(!isOpen)}
+          className={classes.collapseButton}
+        >
+          <ExpandMoreIcon className={classes.collapseIcon} />
+        </IconButton>
 
-      <Collapse in={isOpen}>
-        <div>
-          <div className={classes.buttonWrapper}>
-            <FormControl>
-              <InputLabel color="secondary">Algorithm</InputLabel>
-              <Select
-                value={algorithm}
-                onChange={(event) => {
-                  setAlgorithm(event.target.value);
-                  setStep(0);
-                }}
-                inputProps={{
-                  id: 'algorithm-selector',
-                }}
-                disabled={isSorting}
-                input={<BootstrapInput />}
-              >
-                {Object.entries(algorithms).map(([value, { name }], key) => (
-                  <MenuItem value={value} key={key}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={generateArray}
-              disabled={isSorting}
-              className={classes.button}
-              startIcon={<ReplayIcon />}
-            >
-              Generate random array
-            </Button>
-          </div>
+        <Collapse in={isOpen}>{extendedControls}</Collapse>
+      </Hidden>
 
-          <Typography gutterBottom>Size</Typography>
-          <Slider
-            value={size}
-            onChange={(_e, value) => {
-              setSize(value);
-              generateArray();
-            }}
-            valueLabelDisplay="auto"
-            min={2}
-            max={100}
-            disabled={isSorting}
-            color="secondary"
-          />
+      <Hidden mdUp>
+        <IconButton
+          className={classes.openExtendedSettingsButton}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <SettingsIcon fontSize="medium" />
+        </IconButton>
 
-          <Typography gutterBottom>Range</Typography>
-          <Slider
-            value={minMax}
-            onChange={(_e, value) => {
-              setMinMax(value);
-              generateArray();
-            }}
-            valueLabelDisplay="auto"
-            min={0}
-            max={1000}
-            disabled={isSorting}
-            color="secondary"
-          />
-
-          <Typography gutterBottom>Speed</Typography>
-          <Slider
-            value={speed}
-            onChange={(_e, value) => {
-              setSpeed(value);
-              restartSorting();
-            }}
-            valueLabelDisplay="auto"
-            min={0.25}
-            step={0.25}
-            max={4}
-            marks
-            color="secondary"
-          />
-        </div>
-      </Collapse>
+        <SwipeableDrawer
+          anchor="bottom"
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          onOpen={() => setIsOpen(true)}
+          classes={{ paper: classes.drawerPaper }}
+        >
+          {extendedControls}
+        </SwipeableDrawer>
+      </Hidden>
     </Card>
   );
 };
