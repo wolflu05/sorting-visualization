@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.text.secondary}`,
     paddingBottom: theme.spacing(0.5),
   },
+  complexity: {
+    paddingTop: theme.spacing(1.5),
+  },
 }));
 
 const Description = ({ algorithm }) => {
@@ -21,7 +24,16 @@ const Description = ({ algorithm }) => {
       <Typography variant="h5" className={classes.headline} gutterBottom>
         {algorithm.name}
       </Typography>
-      {/* <Typography>{algorithm.description}</Typography> */}
+      <Typography>{algorithm.description}</Typography>
+
+      {algorithm.complexity && (
+        <>
+          <Typography variant="h6" className={classes.complexity}>
+            Komplexität
+          </Typography>
+          <Typography>{algorithm.complexity}</Typography>
+        </>
+      )}
     </Card>
   );
 };

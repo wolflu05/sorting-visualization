@@ -43,4 +43,14 @@ export const colors = {
   c: 'sorted area',
 };
 
-export const description = 'Insertion sort.';
+export const description = `Der „Insertion-Sort“ Algorithmus arbeitet fast genauso trivial wie der „Selection-Sort“.
+ Allerdings fügt dieser, wie der Name sagt, das jeweilige Element ein. Dabei hat dieser auch wieder einen sortierten
+ Teil links, und unsortierten rechts neben dem aktuellen Element in der Liste. Bei jedem Durchlauf zieht er dabei sein
+ aktuelles Element in den Zwischenspeicher und schiebt die Elemente des sortierten Bereiches so lange um eins nach 
+ rechts, bis das Element aus dem Zwischenspeicher dazwischen passt. Dieser Algorithmus arbeitet demzufolge ebenso „in
+ Place“.`;
+
+export const complexity = `Der „Insertion-Sort“ erzielt auch wie der „Selection-Sort“ eine Komplexität von ungefähr
+  O(n^2). Anders als beim „Selection-Sort“, kann der „Insertion-Sort“ im besten Fall auch eine Komplexität von O(n)
+  erzielen, falls die Liste schon sortiert ist, da dann jedes Element nur einmal angefasst und mit dem Vordermann 
+  verglichen werden muss.`;

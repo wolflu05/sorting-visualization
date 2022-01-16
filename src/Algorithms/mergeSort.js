@@ -133,4 +133,12 @@ export const colors = {
   b: 'override from memory',
 };
 
-export const description = 'Merge sort.';
+export const description = `Der „Merge-Sort“ zählt zu den fortgeschrittenen Algorithmen. Dieser macht sich das
+ sogenannte „divide and conquer“ zu Deutsch „teilen und herrschen“ Verfahren zu nutze. Hierbei teilt er die Liste so
+ lange in der Hälfte, bis sie nur noch aus einem Element besteht. Als nächstes werden die Listen für sich sortiert und
+ folgend wieder zusammengesetzt. Das passiert wie bei den meisten Algorithmen rekursiv. Dieser läuft in der Regel aber
+ nicht „in Place“, kann aber mit ein paar Tricks optimiert werden.`;
+
+export const complexity = `„Merge-Sort“ hat im schlechtesten Fall eine Laufzeit von O(n log(n)). Das liegt an der
+ Zerlegung der einzelnen Listen, da hier nicht wie zuvor für jedes Element die ganze Liste verarbeitet werden muss,
+ sondern nur die Elemente im Reisverschlussprinzip in der richtigen Reihenfolge zusammengesetzt werden müssen.`;
