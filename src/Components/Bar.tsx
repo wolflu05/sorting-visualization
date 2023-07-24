@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 export interface BarState {

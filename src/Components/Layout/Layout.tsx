@@ -1,7 +1,5 @@
-import React from 'react';
-
-import { CssBaseline } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { CssBaseline } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   /**
@@ -9,24 +7,24 @@ const useStyles = makeStyles((theme) => ({
    * https://css-tricks.com/almanac/properties/s/scrollbar/
    * https://stackoverflow.com/questions/53772429/material-ui-how-can-i-style-the-scrollbar-with-css-in-js
    */
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '0.4em',
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "0.4em",
     },
-    '*::-webkit-scrollbar-thumb': {
-      borderRadius: '5px',
+    "*::-webkit-scrollbar-thumb": {
+      borderRadius: "5px",
       backgroundColor: theme.palette.grey[600],
     },
   },
   wrapper: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
   },
   innerWrapper: {
-    width: '90%',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
+    width: "90%",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
     },
   },
 }));
