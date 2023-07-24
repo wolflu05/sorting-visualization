@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import {
   Button,
   Slider,
@@ -62,6 +64,14 @@ const Controls = ({
   setAnimation,
 }: ExtendedControls) => {
   const classes = useStyles();
+  const [sizeBuffer, setSizeBuffer] = useState(size);
+
+  useEffect(() => {
+    if (sizeBuffer !== size) {
+      setSize(sizeBuffer);
+      generateArray();
+    }
+  }, [sizeBuffer, size]);
 
   return (
     <div>
@@ -103,8 +113,7 @@ const Controls = ({
       <Slider
         value={size}
         onChange={(_e, value) => {
-          setSize(value as number);
-          generateArray();
+          setSizeBuffer(value as number);
         }}
         valueLabelDisplay="auto"
         min={2}
