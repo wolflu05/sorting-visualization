@@ -1,4 +1,5 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const BarChart = ({ trace, numbers }: BarChartProps) => {
   const classes = useStyles();
   const barChartRef = useRef(null);
+  const [animationParent] = useAutoAnimate();
 
   const { width } = useResize(barChartRef);
   const showNumbers = useMemo(
@@ -43,11 +45,21 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
     [numbers]
   );
 
+  useEffect(() => animationParent(barChartRef.current), [barChartRef.current]);
+
   return (
     <Card>
       <div className={classes.barWrapper} ref={barChartRef}>
         {(trace?.numbers || numbers).map((number, i) => {
-          let state: BarState | null = null;
+          let state: BarState = {
+            a: false,
+            b: false,
+            c: false,
+            d: false,
+            marginLeft: false,
+            marginRight: false,
+            sorted: false,
+          };
 
           if (trace) {
             state = {
@@ -63,10 +75,6 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
               ),
               sorted: trace?.state.sorted.includes(number.id),
             };
-          }
-
-          if (!state) {
-            return <span key={`${i}_${number}`}>Error</span>;
           }
 
           return (

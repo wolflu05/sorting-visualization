@@ -1,3 +1,4 @@
+import { ForwardRefExoticComponent } from "react";
 import { Theme, makeStyles } from "@material-ui/core/styles";
 
 export interface BarState {
@@ -15,6 +16,10 @@ interface BarProps {
   state: BarState;
   max: number;
   showNumber: boolean;
+  component?:
+    | React.ElementType<React.HTMLAttributes<HTMLElement>>
+    | ForwardRefExoticComponent<any>;
+  extraProps?: object;
 }
 
 interface StyleProps {
@@ -81,13 +86,20 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-const Bar = ({ value, state, max, showNumber }: BarProps) => {
+const Bar = ({
+  value,
+  state,
+  max,
+  showNumber,
+  component: Component = "div",
+  extraProps,
+}: BarProps) => {
   const classes = useStyles({ value, state, max });
 
   return (
-    <div className={classes.bar}>
+    <Component className={classes.bar} {...extraProps}>
       {showNumber && <div className={classes.text}>{value}</div>}
-    </div>
+    </Component>
   );
 };
 
