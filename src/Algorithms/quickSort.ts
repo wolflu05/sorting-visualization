@@ -1,7 +1,7 @@
-import Trace from "../util/Trace";
+import Trace, { SortItem } from "../util/Trace";
 import { swap } from "../util/utils";
 
-const quickSort = (numbers: number[]) => {
+const quickSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
   const _quickSort = (low: number, high: number) => {
@@ -19,65 +19,65 @@ const quickSort = (numbers: number[]) => {
 
     while (_low < _high) {
       trace.add(numbers, {
-        b: [_low],
-        c: [_high],
-        d: [pivot],
+        b: [numbers[_low]],
+        c: [numbers[_high]],
+        d: [numbers[pivot]],
         groups: [[low, high]],
       });
 
-      while (_low < high && numbers[_low] < numbers[pivot]) {
+      while (_low < high && numbers[_low].value < numbers[pivot].value) {
         _low++;
         trace.add(numbers, {
-          b: [_low],
-          c: [_high],
-          d: [pivot],
+          b: [numbers[_low]],
+          c: [numbers[_high]],
+          d: [numbers[pivot]],
           groups: [[low, high]],
         });
       }
 
-      while (_high > low && numbers[_high] >= numbers[pivot]) {
+      while (_high > low && numbers[_high].value >= numbers[pivot].value) {
         _high--;
         trace.add(numbers, {
-          b: [_low],
-          c: [_high],
-          d: [pivot],
+          b: [numbers[_low]],
+          c: [numbers[_high]],
+          d: [numbers[pivot]],
           groups: [[low, high]],
         });
       }
 
       if (_low < _high) {
         trace.add(numbers, {
-          a: [_low, _high],
-          b: [_low],
-          c: [_high],
-          d: [pivot],
+          a: [numbers[_low], numbers[_high]],
+          b: [numbers[_low]],
+          c: [numbers[_high]],
+          d: [numbers[pivot]],
           groups: [[low, high]],
         });
         swap(numbers, _low, _high);
         trace.add(numbers, {
-          a: [_low, _high],
-          b: [_low],
-          c: [_high],
-          d: [pivot],
+          a: [numbers[_low], numbers[_high]],
+          b: [numbers[_low]],
+          c: [numbers[_high]],
+          d: [numbers[pivot]],
           groups: [[low, high]],
         });
       }
     }
 
-    if (numbers[_low] > numbers[pivot]) {
+    if (numbers[_low].value > numbers[pivot].value) {
       trace.add(numbers, {
-        a: [_low, pivot],
-        b: [_low],
-        c: [_high],
-        d: [pivot],
+        a: [numbers[_low], numbers[pivot]],
+        b: [numbers[_low]],
+        c: [numbers[_high]],
+        d: [numbers[pivot]],
         groups: [[low, high]],
       });
       swap(numbers, _low, pivot);
       trace.add(numbers, {
-        a: [_low, pivot],
-        b: [_low],
-        c: [_high],
-        d: [pivot],
+        a: [numbers[_low], numbers[pivot]],
+        b: [numbers[_low]],
+        c: [numbers[_high]],
+        d: [numbers[pivot]],
         groups: [[low, high]],
       });
     }
@@ -87,7 +87,7 @@ const quickSort = (numbers: number[]) => {
 
   _quickSort(0, numbers.length - 1);
 
-  trace.add(numbers, { sorted: [...numbers.keys()] });
+  trace.add(numbers, { sorted: [...numbers] });
 
   return trace.export();
 };

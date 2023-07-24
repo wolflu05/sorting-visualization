@@ -1,21 +1,21 @@
-import Trace from "../util/Trace";
+import Trace, { SortItem } from "../util/Trace";
 import { range } from "../util/utils";
 
-const insertionSort = (numbers: number[]) => {
+const insertionSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
   for (const i of range(0, numbers.length)) {
     const value = numbers[i];
     let hole = i;
 
-    trace.add(numbers, { a: [i], c: range(0, i) });
+    trace.add(numbers, { a: [numbers[i]], c: numbers.slice(0, i) });
 
-    while (hole > 0 && numbers[hole - 1] > value) {
+    while (hole > 0 && numbers[hole - 1].value > value.value) {
       numbers[hole] = numbers[hole - 1];
 
       const copy = [...numbers];
       copy[hole - 1] = value;
-      trace.add(copy, { a: [hole - 1], c: range(0, i + 1) });
+      trace.add(copy, { a: [copy[hole - 1]], c: copy.slice(0, i + 1) });
 
       hole--;
     }
@@ -23,12 +23,12 @@ const insertionSort = (numbers: number[]) => {
     numbers[hole] = value;
 
     trace.add(numbers, {
-      b: [hole],
-      c: range(0, i + 1),
+      b: [numbers[hole]],
+      c: numbers.slice(0, i + 1),
     });
   }
 
-  trace.add(numbers, { sorted: [...numbers.keys()] });
+  trace.add(numbers, { sorted: [...numbers] });
 
   return trace.export();
 };

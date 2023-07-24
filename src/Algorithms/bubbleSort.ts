@@ -1,34 +1,34 @@
-import Trace from "../util/Trace";
-import { range, swap } from "../util/utils";
+import Trace, { SortItem } from "../util/Trace";
+import { swap } from "../util/utils";
 
-const bubbleSort = (numbers: number[]) => {
+const bubbleSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
   for (let sortedIndex = numbers.length; sortedIndex >= 0; sortedIndex--) {
     for (let e = 0; e < sortedIndex - 1; e++) {
       trace.add(numbers, {
-        a: [e, e + 1],
+        a: [numbers[e], numbers[e + 1]],
         groups: [[e, e + 1]],
-        sorted: range(sortedIndex, numbers.length),
+        sorted: numbers.slice(sortedIndex, numbers.length),
       });
 
-      if (numbers[e] > numbers[e + 1]) {
+      if (numbers[e].value > numbers[e + 1].value) {
         trace.add(numbers, {
-          b: [e, e + 1],
+          b: [numbers[e], numbers[e + 1]],
           groups: [[e, e + 1]],
-          sorted: range(sortedIndex, numbers.length),
+          sorted: numbers.slice(sortedIndex, numbers.length),
         });
         swap(numbers, e, e + 1);
         trace.add(numbers, {
-          b: [e, e + 1],
+          b: [numbers[e], numbers[e + 1]],
           groups: [[e, e + 1]],
-          sorted: range(sortedIndex, numbers.length),
+          sorted: numbers.slice(sortedIndex, numbers.length),
         });
       }
     }
   }
 
-  trace.add(numbers, { sorted: [...numbers.keys()] });
+  trace.add(numbers, { sorted: [...numbers] });
 
   return trace.export();
 };

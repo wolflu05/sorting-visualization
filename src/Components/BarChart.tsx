@@ -6,11 +6,11 @@ import Bar, { BarState } from "./Bar";
 import Card from "./Layout/Card";
 
 import useResize from "../hooks/useResize";
-import { TraceEntry } from "../util/Trace";
+import { SortItem, TraceEntry } from "../util/Trace";
 
 interface BarChartProps {
   trace: TraceEntry;
-  numbers: number[];
+  numbers: SortItem[];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,10 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
     [numbers, trace?.numbers, width]
   );
 
-  const max = useMemo(() => Math.max(...numbers), [numbers]);
+  const max = useMemo(
+    () => Math.max(...numbers.map((x) => x.value)),
+    [numbers]
+  );
 
   return (
     <Card>
@@ -48,17 +51,17 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
 
           if (trace) {
             state = {
-              a: trace.state.a.includes(i),
-              b: trace.state.b.includes(i),
-              c: trace.state.c.includes(i),
-              d: trace.state.d.includes(i),
+              a: trace.state.a.includes(number.id),
+              b: trace.state.b.includes(number.id),
+              c: trace.state.c.includes(number.id),
+              d: trace.state.d.includes(number.id),
               marginLeft: trace.state.groups.some(
                 (group) => group[0] === i + 1
               ),
               marginRight: trace.state.groups.some(
                 (group) => group[1] === i - 1
               ),
-              sorted: trace?.state.sorted.includes(i),
+              sorted: trace?.state.sorted.includes(number.id),
             };
           }
 
@@ -68,10 +71,10 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
 
           return (
             <Bar
-              value={number}
+              value={number.value}
+              key={number.id}
               max={max}
               state={state}
-              key={`${i}_${number}`}
               showNumber={showNumbers}
             />
           );

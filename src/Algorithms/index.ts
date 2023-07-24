@@ -1,4 +1,4 @@
-import { TraceEntry } from "../util/Trace";
+import { SortItem, TraceEntry } from "../util/Trace";
 
 import * as selectionSort from "./selectionSort";
 import * as insertionSort from "./insertionSort";
@@ -18,7 +18,7 @@ export interface AlgorithmDefinition {
     c?: string;
     d?: string;
   };
-  default: (numbers: number[]) => TraceEntry[];
+  default: (numbers: SortItem[]) => TraceEntry[];
 }
 
 export const algorithms: Record<string, AlgorithmDefinition> = {

@@ -4,19 +4,16 @@ import BarChart from "../Components/BarChart";
 import Controls from "../Components/Controls";
 import Description from "../Components/Description";
 
-import { generateRandomArray } from "../util/utils";
 import { algorithms } from "../Algorithms";
 import Legend from "../Components/Legend";
 import { defaultSettings } from "../util/constants";
 import Headline from "../Components/Headline";
-import { TraceEntry } from "../util/Trace";
-
-// const algorithms1: Record<string, algorithms.AlgorithmDefinition> = algorithms
+import { TraceEntry, generateRandomNumbers } from "../util/Trace";
 
 const App = () => {
   const [step, setStep] = useState(0);
   const [numbers, setNumbers] = useState(
-    generateRandomArray(defaultSettings.size, ...defaultSettings.range)
+    generateRandomNumbers(defaultSettings.size, defaultSettings.range)
   );
   const [algorithm, setAlgorithm] = useState(defaultSettings.algorithm);
   const [trace, setTrace] = useState<TraceEntry[]>([]);
@@ -24,7 +21,8 @@ const App = () => {
   // recalculate trace if algorithm or array changes
   useEffect(() => {
     if (numbers) {
-      setTrace(algorithms[algorithm].default([...numbers]));
+      const trace = algorithms[algorithm].default([...numbers]);
+      setTrace(trace);
     }
   }, [numbers, algorithm, setTrace]);
 

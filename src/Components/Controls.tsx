@@ -22,17 +22,17 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ExtendedControls from "./ExtendedControls";
 import Card from "./Layout/Card";
 
-import { generateRandomArray, normalize, scaleValue } from "../util/utils";
+import { normalize, scaleValue } from "../util/utils";
 import { defaultSettings } from "../util/constants";
-import { TraceEntry } from "../util/Trace";
+import { SortItem, TraceEntry, generateRandomNumbers } from "../util/Trace";
 
 interface ControlsProps {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   algorithm: string;
   setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
-  numbers: number[];
-  setNumbers: React.Dispatch<React.SetStateAction<number[]>>;
+  numbers: SortItem[];
+  setNumbers: React.Dispatch<React.SetStateAction<SortItem[]>>;
   trace: TraceEntry[];
   setTrace: React.Dispatch<React.SetStateAction<TraceEntry[]>>;
 }
@@ -128,7 +128,7 @@ const Controls = ({
 
   // generate new randomized array
   const generateArray = useCallback(() => {
-    const array = generateRandomArray(size, ...minMax);
+    const array = generateRandomNumbers(size, minMax);
     setNumbers(array);
     setStep(0);
   }, [minMax, setNumbers, setStep, size]);

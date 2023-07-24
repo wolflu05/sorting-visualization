@@ -1,7 +1,7 @@
-import Trace from "../util/Trace";
-import { range, swap } from "../util/utils";
+import Trace, { SortItem } from "../util/Trace";
+import { swap } from "../util/utils";
 
-const selectionSort = (numbers: number[]) => {
+const selectionSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
   for (let sortedIndex = 0; sortedIndex < numbers.length; sortedIndex++) {
@@ -9,27 +9,27 @@ const selectionSort = (numbers: number[]) => {
 
     for (let e = sortedIndex; e < numbers.length; e++) {
       trace.add(numbers, {
-        a: [e, smallestIndex],
-        sorted: range(0, sortedIndex),
+        a: [numbers[e], numbers[smallestIndex]],
+        sorted: numbers.slice(0, sortedIndex),
       });
 
-      if (numbers[e] < numbers[smallestIndex]) {
+      if (numbers[e].value < numbers[smallestIndex].value) {
         smallestIndex = e;
       }
     }
 
     trace.add(numbers, {
-      b: [sortedIndex, smallestIndex],
-      sorted: range(0, sortedIndex),
+      b: [numbers[sortedIndex], numbers[smallestIndex]],
+      sorted: numbers.slice(0, sortedIndex),
     });
     swap(numbers, sortedIndex, smallestIndex);
     trace.add(numbers, {
-      b: [sortedIndex, smallestIndex],
-      sorted: range(0, sortedIndex),
+      b: [numbers[sortedIndex], numbers[smallestIndex]],
+      sorted: numbers.slice(0, sortedIndex),
     });
   }
 
-  trace.add(numbers, { sorted: [...numbers.keys()] });
+  trace.add(numbers, { sorted: [...numbers] });
 
   return trace.export();
 };
