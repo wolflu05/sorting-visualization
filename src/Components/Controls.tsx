@@ -35,6 +35,8 @@ interface ControlsProps {
   setNumbers: React.Dispatch<React.SetStateAction<SortItem[]>>;
   trace: TraceEntry[];
   setTrace: React.Dispatch<React.SetStateAction<TraceEntry[]>>;
+  animation: boolean;
+  setAnimation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface StyleProps {
@@ -94,6 +96,8 @@ const Controls = ({
   setAlgorithm,
   setNumbers,
   trace,
+  animation,
+  setAnimation,
 }: ControlsProps) => {
   const intervalId = useRef<undefined | number>(undefined);
   const [isSorting, setIsSorting] = useState(false);
@@ -244,6 +248,8 @@ const Controls = ({
       isSorting={isSorting}
       generateArray={generateArray}
       restartSorting={restartSorting}
+      animation={animation}
+      setAnimation={setAnimation}
     />
   );
 

@@ -12,6 +12,7 @@ import { TraceEntry, generateRandomNumbers } from "../util/Trace";
 
 const App = () => {
   const [step, setStep] = useState(0);
+  const [animation, setAnimation] = useState(true);
   const [numbers, setNumbers] = useState(
     generateRandomNumbers(defaultSettings.size, defaultSettings.range)
   );
@@ -30,7 +31,7 @@ const App = () => {
     <div>
       <Headline />
 
-      <BarChart trace={trace?.[step]} numbers={numbers} />
+      <BarChart trace={trace?.[step]} numbers={numbers} animation={animation} />
 
       <Legend algorithm={algorithms[algorithm]} />
 
@@ -43,6 +44,8 @@ const App = () => {
         setNumbers={setNumbers}
         trace={trace}
         setTrace={setTrace}
+        animation={animation}
+        setAnimation={setAnimation}
       />
 
       <Description algorithm={algorithms[algorithm]} />

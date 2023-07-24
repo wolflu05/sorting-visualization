@@ -12,6 +12,7 @@ import { SortItem, TraceEntry } from "../util/Trace";
 interface BarChartProps {
   trace: TraceEntry;
   numbers: SortItem[];
+  animation: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const BarChart = ({ trace, numbers }: BarChartProps) => {
+const BarChart = ({ trace, numbers, animation }: BarChartProps) => {
   const classes = useStyles();
   const barChartRef = useRef(null);
-  const [animationParent] = useAutoAnimate();
+  const [animationParent, setAnimation] = useAutoAnimate();
 
   const { width } = useResize(barChartRef);
   const showNumbers = useMemo(
@@ -46,6 +47,8 @@ const BarChart = ({ trace, numbers }: BarChartProps) => {
   );
 
   useEffect(() => animationParent(barChartRef.current), [barChartRef.current]);
+
+  useEffect(() => setAnimation(animation), [setAnimation, animation]);
 
   return (
     <Card>

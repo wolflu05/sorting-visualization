@@ -3,6 +3,7 @@ import {
   Slider,
   Typography,
   Select,
+  Switch,
   MenuItem,
   FormControl,
   InputLabel,
@@ -28,6 +29,8 @@ interface ExtendedControls {
   isSorting: boolean;
   generateArray: () => void;
   restartSorting: () => void;
+  animation: boolean;
+  setAnimation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +58,8 @@ const Controls = ({
   isSorting,
   generateArray,
   restartSorting,
+  animation,
+  setAnimation,
 }: ExtendedControls) => {
   const classes = useStyles();
 
@@ -134,6 +139,13 @@ const Controls = ({
         step={0.25}
         max={4}
         marks
+        color="secondary"
+      />
+
+      <Typography gutterBottom>Animations</Typography>
+      <Switch
+        checked={animation}
+        onChange={(_e, checked) => setAnimation(checked)}
         color="secondary"
       />
     </div>
