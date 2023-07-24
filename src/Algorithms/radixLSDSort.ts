@@ -1,10 +1,10 @@
-import Trace from '../util/Trace';
+import Trace from "../util/Trace";
 
-const radixLSDSort = (numbers) => {
+const radixLSDSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
-  const getSortedList = (list, i) => {
-    const table = {
+  const getSortedList = (list: number[], i: number) => {
+    const table: Record<number, number[]> = {
       0: [],
       1: [],
       2: [],
@@ -18,12 +18,12 @@ const radixLSDSort = (numbers) => {
     };
 
     for (const number of list) {
-      const s = number.toString().padStart(i + 1, '0');
-      table[Number(s[s.length - i - 1])].push(number);
+      const s = number.toString().padStart(i + 1, "0");
+      table[parseInt(s[s.length - i - 1], 10)].push(number);
     }
 
-    const l = [];
-    const groups = [];
+    const l: number[] = [];
+    const groups: Array<[number, number]> = [];
 
     for (const nums of Object.values(table)) {
       const start = l.length;
@@ -43,15 +43,15 @@ const radixLSDSort = (numbers) => {
     lastList = getSortedList(lastList, i);
   }
 
-  trace.add(lastList, { sorted: lastList.keys() });
+  trace.add(lastList, { sorted: [...lastList.keys()] });
 
   return trace.export();
 };
 
 export default radixLSDSort;
 
-export const name = 'radixLSD Sort';
+export const name = "radixLSD Sort";
 
 export const colors = {};
 
-export const description = 'radixLSD Sort. Does not visualize smoothly.';
+export const description = "radixLSD Sort. Does not visualize smoothly.";

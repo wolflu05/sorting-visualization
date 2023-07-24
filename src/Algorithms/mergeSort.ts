@@ -1,10 +1,10 @@
-import Trace from '../util/Trace';
-import { range } from '../util/utils';
+import Trace from "../util/Trace";
+import { range } from "../util/utils";
 
-const mergeSort = (numbers) => {
+const mergeSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
-  const _mergeSort = (numbers, start, end) => {
+  const _mergeSort = (numbers: number[], start: number, end: number) => {
     const length = end - start;
 
     if (length <= 1) {
@@ -28,7 +28,12 @@ const mergeSort = (numbers) => {
     }
   };
 
-  const merge = (numbers, start, middle, end) => {
+  const merge = (
+    numbers: number[],
+    start: number,
+    middle: number,
+    end: number
+  ) => {
     const left = numbers.slice(start, middle);
     const right = numbers.slice(middle, end);
 
@@ -37,7 +42,7 @@ const mergeSort = (numbers) => {
     let i = 0;
 
     while (leftStart < left.length && rightStart < right.length) {
-      let sorted = [];
+      let sorted: number[] = [];
       if (start === 0 && end === numbers.length) {
         sorted = range(0, i);
       }
@@ -73,7 +78,7 @@ const mergeSort = (numbers) => {
     }
 
     while (leftStart < left.length) {
-      let sorted = [];
+      let sorted: number[] = [];
       if (start === 0 && end === numbers.length) {
         sorted = range(0, i);
       }
@@ -94,7 +99,7 @@ const mergeSort = (numbers) => {
     }
 
     while (rightStart < right.length) {
-      let sorted = [];
+      let sorted: number[] = [];
       if (start === 0 && end === numbers.length) {
         sorted = range(0, i);
       }
@@ -119,18 +124,18 @@ const mergeSort = (numbers) => {
 
   _mergeSort(numbers, 0, numbers.length);
 
-  trace.add(numbers, { sorted: numbers.keys() });
+  trace.add(numbers, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default mergeSort;
 
-export const name = 'Merge Sort';
+export const name = "Merge Sort";
 
 export const colors = {
-  a: 'call merge sort',
-  b: 'override from memory',
+  a: "call merge sort",
+  b: "override from memory",
 };
 
 export const description = `Der „Merge-Sort“ zählt zu den fortgeschrittenen Algorithmen. Dieser macht sich das

@@ -1,10 +1,10 @@
-import Trace from '../util/Trace';
-import { swap } from '../util/utils';
+import Trace from "../util/Trace";
+import { swap } from "../util/utils";
 
-const quickSort = (numbers) => {
+const quickSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
-  const _quickSort = (low, high) => {
+  const _quickSort = (low: number, high: number) => {
     if (low < high) {
       const pivot = divide(low, high);
       _quickSort(low, pivot - 1);
@@ -12,7 +12,7 @@ const quickSort = (numbers) => {
     }
   };
 
-  const divide = (low, high) => {
+  const divide = (low: number, high: number) => {
     let _low = low;
     let pivot = high;
     let _high = high - 1;
@@ -87,20 +87,20 @@ const quickSort = (numbers) => {
 
   _quickSort(0, numbers.length - 1);
 
-  trace.add(numbers, { sorted: numbers.keys() });
+  trace.add(numbers, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default quickSort;
 
-export const name = 'Quick Sort';
+export const name = "Quick Sort";
 
 export const colors = {
-  a: 'swapping',
-  b: 'low',
-  c: 'high',
-  d: 'pivot',
+  a: "swapping",
+  b: "low",
+  c: "high",
+  d: "pivot",
 };
 
 export const description = `Den „Quick-Sort“ kann man wie „Merge-Sort“ zu den fortgeschrittenen Sortierverfahren

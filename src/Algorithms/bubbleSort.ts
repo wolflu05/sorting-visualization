@@ -1,7 +1,7 @@
-import Trace from '../util/Trace';
-import { range, swap } from '../util/utils';
+import Trace from "../util/Trace";
+import { range, swap } from "../util/utils";
 
-const bubbleSort = (numbers) => {
+const bubbleSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
   for (let sortedIndex = numbers.length; sortedIndex >= 0; sortedIndex--) {
@@ -28,18 +28,18 @@ const bubbleSort = (numbers) => {
     }
   }
 
-  trace.add(numbers, { sorted: numbers.keys() });
+  trace.add(numbers, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default bubbleSort;
 
-export const name = 'Bubble Sort';
+export const name = "Bubble Sort";
 
 export const colors = {
-  a: 'comparing values',
-  b: 'swapping values',
+  a: "comparing values",
+  b: "swapping values",
 };
 
 export const description = `Das „Bubble-Sort“ Verfahren bildet, wie der Name sagt, immer eine „Bubble“, eine Blase.
