@@ -27,6 +27,10 @@ const App = () => {
     }
   }, [numbers, algorithm, setTrace]);
 
+  useEffect(() => {
+    setAnimation(algorithms[algorithm].animateMovements ?? true);
+  }, [algorithm]);
+
   return (
     <div>
       <Headline />

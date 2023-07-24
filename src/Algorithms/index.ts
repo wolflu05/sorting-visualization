@@ -18,6 +18,7 @@ export interface AlgorithmDefinition {
     c?: string;
     d?: string;
   };
+  animateMovements?: boolean;
   default: (numbers: SortItem[]) => TraceEntry[];
 }
 
