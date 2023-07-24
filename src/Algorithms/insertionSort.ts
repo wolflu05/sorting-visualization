@@ -1,7 +1,7 @@
-import Trace from '../util/Trace';
-import { range } from '../util/utils';
+import Trace from "../util/Trace";
+import { range } from "../util/utils";
 
-const insertionSort = (numbers) => {
+const insertionSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
   for (const i of range(0, numbers.length)) {
@@ -28,19 +28,19 @@ const insertionSort = (numbers) => {
     });
   }
 
-  trace.add(numbers, { sorted: numbers.keys() });
+  trace.add(numbers, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default insertionSort;
 
-export const name = 'Insertion Sort';
+export const name = "Insertion Sort";
 
 export const colors = {
-  a: 'selected value',
-  b: 'write selected value',
-  c: 'sorted area',
+  a: "selected value",
+  b: "write selected value",
+  c: "sorted area",
 };
 
 export const description = `Der „Insertion-Sort“ Algorithmus arbeitet fast genauso trivial wie der „Selection-Sort“.

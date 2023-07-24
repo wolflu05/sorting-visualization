@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   IconButton,
@@ -6,30 +6,46 @@ import {
   Collapse,
   Hidden,
   SwipeableDrawer,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { Theme, makeStyles } from "@material-ui/core/styles";
 
-import SkipNextIcon from '@material-ui/icons/SkipNext';
-import FastForwardIcon from '@material-ui/icons/FastForward';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import FastRewindIcon from '@material-ui/icons/FastRewind';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import PauseIcon from '@material-ui/icons/Pause';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SkipNextIcon from "@material-ui/icons/SkipNext";
+import FastForwardIcon from "@material-ui/icons/FastForward";
+import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
+import FastRewindIcon from "@material-ui/icons/FastRewind";
+import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import PauseIcon from "@material-ui/icons/Pause";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import SettingsIcon from "@material-ui/icons/Settings";
 
-import ExtendedControls from './ExtendedControls';
-import Card from './Layout/Card';
+import ExtendedControls from "./ExtendedControls";
+import Card from "./Layout/Card";
 
-import { generateRandomArray, normalize, scaleValue } from '../util/utils';
-import { defaultSettings } from '../util/constants';
+import { generateRandomArray, normalize, scaleValue } from "../util/utils";
+import { defaultSettings } from "../util/constants";
+import { TraceEntry } from "../util/Trace";
 
-const useStyles = makeStyles((theme) => ({
+interface ControlsProps {
+  step: number;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  algorithm: string;
+  setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
+  numbers: number[];
+  setNumbers: React.Dispatch<React.SetStateAction<number[]>>;
+  trace: TraceEntry[];
+  setTrace: React.Dispatch<React.SetStateAction<TraceEntry[]>>;
+}
+
+interface StyleProps {
+  isOpen: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   controlsWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   controlButton: {
     marginLeft: theme.spacing(2),
@@ -39,30 +55,30 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.secondary.main}`,
   },
   indicator: {
-    display: 'flex',
-    justifyContent: 'flex-end;',
+    display: "flex",
+    justifyContent: "flex-end;",
     marginTop: theme.spacing(),
   },
   collapseButton: {
     marginTop: -theme.spacing(10),
   },
   collapseIcon: {
-    transition: 'all 125ms ease-in-out',
-    transform: ({ isOpen }) => `rotate(${isOpen ? '0' : '-90'}deg)`,
+    transition: "all 125ms ease-in-out",
+    transform: ({ isOpen }) => `rotate(${isOpen ? "0" : "-90"}deg)`,
   },
   drawerPaper: {
-    borderTopLeftRadius: '15px',
-    borderTopRightRadius: '15px',
+    borderTopLeftRadius: "15px",
+    borderTopRightRadius: "15px",
     padding: theme.spacing(3),
   },
   openExtendedSettingsButton: {
-    position: 'fixed',
-    width: '56px',
-    height: '56px',
+    position: "fixed",
+    width: "56px",
+    height: "56px",
     backgroundColor: theme.palette.secondary.main,
     right: theme.spacing(2),
     bottom: theme.spacing(2),
-    '&:hover': {
+    "&:hover": {
       backgroundColor: theme.palette.secondary.dark,
     },
   },
@@ -78,8 +94,8 @@ const Controls = ({
   setAlgorithm,
   setNumbers,
   trace,
-}) => {
-  const intervalId = useRef(null);
+}: ControlsProps) => {
+  const intervalId = useRef<undefined | NodeJS.Timer>(undefined);
   const [isSorting, setIsSorting] = useState(false);
   const [speed, setSpeed] = useState(defaultSettings.speed);
   const [size, setSize] = useState(defaultSettings.size);
@@ -90,7 +106,7 @@ const Controls = ({
 
   // skip forward or backward
   const skip = useCallback(
-    (number) => {
+    (number: number) => {
       if (!trace) {
         return;
       }
@@ -119,7 +135,7 @@ const Controls = ({
 
   // timer function for auto increment step
   const autoIncrement = useCallback(
-    (_speed) => {
+    (_speed: number) => {
       const increase = () =>
         setStep((s) => {
           const _step = s + 1;
@@ -180,7 +196,8 @@ const Controls = ({
 
   // add keyboard shortcuts
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      event.preventDefault();
       switch (event.keyCode) {
         // left arrow
         case 37: {
@@ -205,11 +222,11 @@ const Controls = ({
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     // remove event handler on unmount
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [skip, toggleSorting, trace]);
 
@@ -239,7 +256,7 @@ const Controls = ({
           color="secondary"
         />
         <span className={classes.indicator}>
-          {step}/{trace?.length - 1 || '-'}
+          {step}/{trace?.length - 1 || "-"}
         </span>
         <div className={classes.controlsWrapper}>
           <IconButton onClick={() => skip(-25)} disabled={!trace || step === 0}>
@@ -294,7 +311,7 @@ const Controls = ({
           className={classes.openExtendedSettingsButton}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <SettingsIcon fontSize="medium" />
+          <SettingsIcon fontSize="large" />
         </IconButton>
 
         <SwipeableDrawer

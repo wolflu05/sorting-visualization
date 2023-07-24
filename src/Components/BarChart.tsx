@@ -1,28 +1,34 @@
-import React, { useMemo, useRef } from 'react';
+import { useMemo, useRef } from "react";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import Bar from './Bar';
-import Card from './Layout/Card';
+import Bar, { BarState } from "./Bar";
+import Card from "./Layout/Card";
 
-import useResize from '../hooks/useResize';
+import useResize from "../hooks/useResize";
+import { TraceEntry } from "../util/Trace";
+
+interface BarChartProps {
+  trace: TraceEntry;
+  numbers: number[];
+}
 
 const useStyles = makeStyles((theme) => ({
   barChart: {
-    height: '100%',
+    height: "100%",
     padding: theme.spacing(3),
     margin: theme.spacing(),
   },
   barWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    width: '100%',
-    height: '400px',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    width: "100%",
+    height: "400px",
   },
 }));
 
-const BarChart = ({ trace, numbers }) => {
+const BarChart = ({ trace, numbers }: BarChartProps) => {
   const classes = useStyles();
   const barChartRef = useRef(null);
 
@@ -38,7 +44,7 @@ const BarChart = ({ trace, numbers }) => {
     <Card>
       <div className={classes.barWrapper} ref={barChartRef}>
         {(trace?.numbers || numbers).map((number, i) => {
-          let state = null;
+          let state: BarState | null = null;
 
           if (trace) {
             state = {
@@ -54,6 +60,10 @@ const BarChart = ({ trace, numbers }) => {
               ),
               sorted: trace?.state.sorted.includes(i),
             };
+          }
+
+          if (!state) {
+            return <span key={`${i}_${number}`}>Error</span>;
           }
 
           return (

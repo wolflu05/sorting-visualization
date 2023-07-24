@@ -1,7 +1,7 @@
-import Trace from '../util/Trace';
-import { swap } from '../util/utils';
+import Trace from "../util/Trace";
+import { swap } from "../util/utils";
 
-const jsSort = (numbers) => {
+const jsSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
   const indexed = numbers.map((num, i) => ({
@@ -36,14 +36,14 @@ const jsSort = (numbers) => {
     })
     .map(({ num }) => num);
 
-  trace.add(sorted, { sorted: sorted.keys() });
+  trace.add(sorted, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default jsSort;
 
-export const name = 'JavaScript Sort';
+export const name = "JavaScript Sort";
 
 export const description =
-  'Just for fun :D - Visualization does not work properly.';
+  "Just for fun :D - Visualization does not work properly.";

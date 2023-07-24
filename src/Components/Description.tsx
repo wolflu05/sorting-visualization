@@ -1,10 +1,9 @@
-import React from 'react';
+import { Typography } from "@material-ui/core";
 
-import { Typography } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
 
-import { makeStyles } from '@material-ui/core/styles';
-
-import Card from './Layout/Card';
+import Card from "./Layout/Card";
+import { AlgorithmDefinition } from "../Algorithms";
 
 const useStyles = makeStyles((theme) => ({
   headline: {
@@ -16,7 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Description = ({ algorithm }) => {
+interface DescriptionProps {
+  algorithm: AlgorithmDefinition;
+}
+
+const Description = ({ algorithm }: DescriptionProps) => {
   const classes = useStyles();
 
   return (
@@ -26,13 +29,15 @@ const Description = ({ algorithm }) => {
       </Typography>
       <Typography>{algorithm.description}</Typography>
 
-      {algorithm.complexity && (
+      {algorithm.complexity ? (
         <>
           <Typography variant="h6" className={classes.complexity}>
             Komplexität
           </Typography>
           <Typography>{algorithm.complexity}</Typography>
         </>
+      ) : (
+        <></>
       )}
     </Card>
   );

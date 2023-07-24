@@ -1,5 +1,19 @@
+export interface TraceEntry {
+  numbers: number[];
+  state: {
+    a: number[];
+    b: number[];
+    c: number[];
+    d: number[];
+    groups: Array<[number, number]>;
+    sorted: number[];
+  };
+}
+
 export default class Trace {
-  constructor(numbers) {
+  trace: TraceEntry[];
+
+  constructor(numbers: number[]) {
     this.trace = [
       {
         numbers: [...numbers],
@@ -15,7 +29,24 @@ export default class Trace {
     ];
   }
 
-  add(numbers, { a = [], b = [], c = [], d = [], groups = [], sorted = [] }) {
+  add(
+    numbers: number[],
+    {
+      a = [],
+      b = [],
+      c = [],
+      d = [],
+      groups = [],
+      sorted = [],
+    }: {
+      a?: number[];
+      b?: number[];
+      c?: number[];
+      d?: number[];
+      groups?: Array<[number, number]>;
+      sorted?: number[];
+    }
+  ) {
     this.trace.push({
       numbers: [...numbers],
       state: {

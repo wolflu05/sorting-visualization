@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Layout = ({ children }) => {
+const Layout = ({ children }: { children: JSX.Element }) => {
   const classes = useStyles();
 
   return (

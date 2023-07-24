@@ -1,7 +1,7 @@
-import Trace from '../util/Trace';
-import { range, swap } from '../util/utils';
+import Trace from "../util/Trace";
+import { range, swap } from "../util/utils";
 
-const selectionSort = (numbers) => {
+const selectionSort = (numbers: number[]) => {
   const trace = new Trace(numbers);
 
   for (let sortedIndex = 0; sortedIndex < numbers.length; sortedIndex++) {
@@ -29,18 +29,18 @@ const selectionSort = (numbers) => {
     });
   }
 
-  trace.add(numbers, { sorted: numbers.keys() });
+  trace.add(numbers, { sorted: [...numbers.keys()] });
 
   return trace.export();
 };
 
 export default selectionSort;
 
-export const name = 'Selection Sort';
+export const name = "Selection Sort";
 
 export const colors = {
-  a: 'comparing values',
-  b: 'swapping values',
+  a: "comparing values",
+  b: "swapping values",
 };
 
 export const description = `Der „Selection-Sort“ Algorithmus ist eines der einfachsten Sortierverfahren. Dieser

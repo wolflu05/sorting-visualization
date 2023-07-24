@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import BarChart from '../Components/BarChart';
-import Controls from '../Components/Controls';
-import Description from '../Components/Description';
+import BarChart from "../Components/BarChart";
+import Controls from "../Components/Controls";
+import Description from "../Components/Description";
 
-import { generateRandomArray } from '../util/utils';
-import * as algorithms from '../Algorithms';
-import Legend from '../Components/Legend';
-import { defaultSettings } from '../util/constants';
-import Headline from '../Components/Headline';
+import { generateRandomArray } from "../util/utils";
+import { algorithms } from "../Algorithms";
+import Legend from "../Components/Legend";
+import { defaultSettings } from "../util/constants";
+import Headline from "../Components/Headline";
+import { TraceEntry } from "../util/Trace";
+
+// const algorithms1: Record<string, algorithms.AlgorithmDefinition> = algorithms
 
 const App = () => {
   const [step, setStep] = useState(0);
@@ -16,7 +19,7 @@ const App = () => {
     generateRandomArray(defaultSettings.size, ...defaultSettings.range)
   );
   const [algorithm, setAlgorithm] = useState(defaultSettings.algorithm);
-  const [trace, setTrace] = useState(null);
+  const [trace, setTrace] = useState<TraceEntry[]>([]);
 
   // recalculate trace if algorithm or array changes
   useEffect(() => {

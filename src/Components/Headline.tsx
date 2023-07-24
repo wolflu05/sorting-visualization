@@ -1,8 +1,6 @@
-import React from 'react';
+import { Typography } from "@material-ui/core";
 
-import { Typography } from '@material-ui/core';
-
-import Card from './Layout/Card';
+import Card from "./Layout/Card";
 
 const Headline = () => {
   return (

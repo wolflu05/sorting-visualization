@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, MutableRefObject } from "react";
 
 /**
  * From: https://stackoverflow.com/questions/43817118/how-to-get-the-width-of-a-react-element
  * @param {React.Ref} myRef ref to element
  * @returns {Object} width and hight
  */
-const useResize = (myRef) => {
+const useResize = (myRef: MutableRefObject<HTMLElement | null>) => {
   const getDimensions = useCallback(
     () => ({
-      width: myRef.current.offsetWidth,
-      height: myRef.current.offsetHeight,
+      width: myRef.current?.offsetWidth || 0,
+      height: myRef.current?.offsetHeight || 0,
     }),
     [myRef]
   );
@@ -25,10 +25,10 @@ const useResize = (myRef) => {
       setDimensions(getDimensions());
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [getDimensions, myRef]);
 

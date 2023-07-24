@@ -1,41 +1,27 @@
 /**
  * Generate random integer in given range
  * From: https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
- * @param {Number} min
- * @param {Number} max
- * @returns {Number}
  */
-export const randomInt = (min, max) =>
+export const randomInt = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 /**
  * generate list from start to end [start; end)
- * @param {Number} start
- * @param {Number} end
- * @returns {List}
  */
-export const range = (start, end) =>
+export const range = (start: number, end: number) =>
   [...Array(end - start).keys()].map((i) => i + start);
 
 /**
  * Normalize value to 0-100 range
  * From: https://material-ui.com/components/progress/#non-standard-ranges
- * @param {Number} value value to normalize
- * @param {Number} min values min range
- * @param {Number} max values max range
- * @returns
  */
-export const normalize = (value, min, max) =>
+export const normalize = (value: number, min: number, max: number) =>
   ((value - min) * 100) / (max - min);
 
 /**
  * Generate random array
- * @param {Number} length arrays length
- * @param {Number} min minimum value for entries
- * @param {Number} max maximum value for entries
- * @returns {Array} array with random numbers
  */
-export const generateRandomArray = (length, min, max) =>
+export const generateRandomArray = (length: number, min: number, max: number) =>
   [...Array(length).keys()].map(() => randomInt(min, max));
 
 /* Scale a value from one range to another
@@ -53,30 +39,26 @@ export const generateRandomArray = (length, min, max) =>
  *
  * See: https://gist.github.com/fpillet/993002
  */
-export const scaleValue = (value, from, to) => {
+export const scaleValue = (
+  value: number,
+  from: [number, number],
+  to: [number, number]
+) => {
   var scale = (to[1] - to[0]) / (from[1] - from[0]);
   var capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
   return ~~(capped * scale + to[0]);
 };
 
 /**
- * Swap two elements in an array
- * @param {Array} array
- * @param {Number} a index of a
- * @param {Number} b index of b
- * @returns {Array} swapped elements
+ * Swap two elements at index a and b in an array in place
  */
-export const swap = (array, a, b) =>
+export const swap = <T>(array: Array<T>, a: number, b: number) =>
   ([array[a], array[b]] = [array[b], array[a]]);
 
 /**
- * Insert an item after an specific index
- * @param {Array} array array to insert an item
- * @param {Number} index index after which the item should be inserted
- * @param {Any} item item to insert
- * @returns
+ * Insert an item after a specific index
  */
-export const insertAt = (array, index, item) => [
+export const insertAt = <T>(array: Array<T>, index: number, item: T) => [
   ...array.slice(0, index),
   item,
   ...array.slice(index),

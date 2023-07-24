@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Button,
   Slider,
@@ -8,21 +6,36 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
-import ReplayIcon from '@material-ui/icons/Replay';
+import ReplayIcon from "@material-ui/icons/Replay";
 
-import * as algorithms from '../Algorithms';
-import BootstrapInput from './Inputs/BootstrapInput';
+import { algorithms } from "../Algorithms";
+import BootstrapInput from "./Inputs/BootstrapInput";
+
+interface ExtendedControls {
+  algorithm: string;
+  setAlgorithm: React.Dispatch<React.SetStateAction<string>>;
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  size: number;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
+  minMax: [number, number];
+  setMinMax: React.Dispatch<React.SetStateAction<[number, number]>>;
+  speed: number;
+  setSpeed: React.Dispatch<React.SetStateAction<number>>;
+  isSorting: boolean;
+  generateArray: () => void;
+  restartSorting: () => void;
+}
 
 const useStyles = makeStyles((theme) => ({
   buttonWrapper: {
     marginBottom: theme.spacing(),
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
   button: {
     marginLeft: theme.spacing(),
@@ -42,7 +55,7 @@ const Controls = ({
   isSorting,
   generateArray,
   restartSorting,
-}) => {
+}: ExtendedControls) => {
   const classes = useStyles();
 
   return (
@@ -53,11 +66,11 @@ const Controls = ({
           <Select
             value={algorithm}
             onChange={(event) => {
-              setAlgorithm(event.target.value);
+              setAlgorithm(event.target!.value as string);
               setStep(0);
             }}
             inputProps={{
-              id: 'algorithm-selector',
+              id: "algorithm-selector",
             }}
             disabled={isSorting}
             input={<BootstrapInput />}
@@ -85,7 +98,7 @@ const Controls = ({
       <Slider
         value={size}
         onChange={(_e, value) => {
-          setSize(value);
+          setSize(value as number);
           generateArray();
         }}
         valueLabelDisplay="auto"
@@ -99,7 +112,7 @@ const Controls = ({
       <Slider
         value={minMax}
         onChange={(_e, value) => {
-          setMinMax(value);
+          setMinMax(value as [number, number]);
           generateArray();
         }}
         valueLabelDisplay="auto"
@@ -113,7 +126,7 @@ const Controls = ({
       <Slider
         value={speed}
         onChange={(_e, value) => {
-          setSpeed(value);
+          setSpeed(value as number);
           restartSorting();
         }}
         valueLabelDisplay="auto"
