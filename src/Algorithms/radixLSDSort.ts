@@ -1,49 +1,49 @@
-import Trace from "../util/Trace";
+import Trace, { SortItem } from "../util/Trace";
 
-const radixLSDSort = (numbers: number[]) => {
+const radixLSDSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
-  const getSortedList = (list: number[], i: number) => {
-    const table: Record<number, number[]> = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: [],
-    };
+  // const getSortedList = (list: number[], i: number) => {
+  //   const table: Record<number, number[]> = {
+  //     0: [],
+  //     1: [],
+  //     2: [],
+  //     3: [],
+  //     4: [],
+  //     5: [],
+  //     6: [],
+  //     7: [],
+  //     8: [],
+  //     9: [],
+  //   };
 
-    for (const number of list) {
-      const s = number.toString().padStart(i + 1, "0");
-      table[parseInt(s[s.length - i - 1], 10)].push(number);
-    }
+  //   for (const number of list) {
+  //     const s = number.toString().padStart(i + 1, "0");
+  //     table[parseInt(s[s.length - i - 1], 10)].push(number);
+  //   }
 
-    const l: number[] = [];
-    const groups: Array<[number, number]> = [];
+  //   const l: number[] = [];
+  //   const groups: Array<[number, number]> = [];
 
-    for (const nums of Object.values(table)) {
-      const start = l.length;
-      l.push(...nums);
-      groups.push([start, l.length - 1]);
-    }
+  //   for (const nums of Object.values(table)) {
+  //     const start = l.length;
+  //     l.push(...nums);
+  //     groups.push([start, l.length - 1]);
+  //   }
 
-    trace.add(l, { groups });
+  //   trace.add(l, { groups });
 
-    return l;
-  };
+  //   return l;
+  // };
 
-  const max = Math.max(...numbers).toString().length;
+  // const max = Math.max(...numbers).toString().length;
 
-  let lastList = [...numbers];
-  for (let i = 0; i < max; i++) {
-    lastList = getSortedList(lastList, i);
-  }
+  // let lastList = [...numbers];
+  // for (let i = 0; i < max; i++) {
+  //   lastList = getSortedList(lastList, i);
+  // }
 
-  trace.add(lastList, { sorted: [...lastList.keys()] });
+  // trace.add(lastList, { sorted: [...lastList.keys()] });
 
   return trace.export();
 };
