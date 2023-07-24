@@ -5,8 +5,8 @@ import * as insertionSort from "./insertionSort";
 import * as bubbleSort from "./bubbleSort";
 import * as mergeSort from "./mergeSort";
 import * as quickSort from "./quickSort";
-// export * as radixLSDSort from './radixLSDSort';
-// export * as jsSort from './jsSort';
+// import * as radixLSDSort from './radixLSDSort';
+// import * as jsSort from "./jsSort";
 
 export interface AlgorithmDefinition {
   name: string;
@@ -27,4 +27,6 @@ export const algorithms: Record<string, AlgorithmDefinition> = {
   bubbleSort,
   mergeSort,
   quickSort,
+  // radixLSDSort,
+  // jsSort,
 };

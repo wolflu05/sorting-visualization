@@ -1,47 +1,27 @@
-import Trace from "../util/Trace";
-import { swap } from "../util/utils";
+import Trace, { SortItem } from "../util/Trace";
 
-const jsSort = (numbers: number[]) => {
+const jsSort = (numbers: SortItem[]) => {
   const trace = new Trace(numbers);
 
-  const indexed = numbers.map((num, i) => ({
-    id: i,
-    num,
-  }));
+  const sorted = numbers.sort((a, b) => {
+    const s = a.value - b.value;
 
-  const swapped = [...indexed];
+    trace.add(numbers, { a: [a], b: [b] });
 
-  const sorted = indexed
-    .sort((a, b) => {
-      const s = a.num - b.num;
+    return s;
+  });
 
-      const _a = swapped.findIndex((e) => e.id === a.id);
-      const _b = swapped.findIndex((e) => e.id === b.id);
-
-      trace.add(
-        swapped.map((n) => n.num),
-        { a: [_a, _b] }
-      );
-
-      if (s <= 0) {
-        swap(swapped, _a, _b);
-      }
-
-      trace.add(
-        swapped.map((n) => n.num),
-        { b: [_a, _b] }
-      );
-
-      return s;
-    })
-    .map(({ num }) => num);
-
-  trace.add(sorted, { sorted: [...numbers.keys()] });
+  trace.add(sorted, { sorted: [...numbers] });
 
   return trace.export();
 };
 
 export default jsSort;
+
+export const colors = {
+  a: "A pointer",
+  b: "B pointer",
+};
 
 export const name = "JavaScript Sort";
 
