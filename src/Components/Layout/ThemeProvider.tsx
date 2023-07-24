@@ -1,6 +1,6 @@
 import {
   ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
+  createTheme,
 } from "@material-ui/core/styles";
 
 import { light, dark } from "../../util/theme";
@@ -13,7 +13,7 @@ interface ThemeProviderProps {
 const ThemeProvider = ({ theme, children }: ThemeProviderProps) => {
   return (
     <MuiThemeProvider
-      theme={theme === "dark" ? createMuiTheme(dark) : createMuiTheme(light)}
+      theme={theme === "dark" ? createTheme(dark) : createTheme(light)}
     >
       {children}
     </MuiThemeProvider>

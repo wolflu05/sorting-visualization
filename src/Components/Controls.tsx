@@ -95,7 +95,7 @@ const Controls = ({
   setNumbers,
   trace,
 }: ControlsProps) => {
-  const intervalId = useRef<undefined | NodeJS.Timer>(undefined);
+  const intervalId = useRef<undefined | number>(undefined);
   const [isSorting, setIsSorting] = useState(false);
   const [speed, setSpeed] = useState(defaultSettings.speed);
   const [size, setSize] = useState(defaultSettings.size);
@@ -197,7 +197,6 @@ const Controls = ({
   // add keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      event.preventDefault();
       switch (event.keyCode) {
         // left arrow
         case 37: {
@@ -213,6 +212,7 @@ const Controls = ({
         case 32: {
           if (trace) {
             toggleSorting();
+            event.preventDefault();
           }
           break;
         }
